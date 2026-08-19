@@ -1,5 +1,5 @@
 {
-  "name": "temporal",
+  "name": "app-turnos-futbol",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
