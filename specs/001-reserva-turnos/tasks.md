@@ -10,7 +10,7 @@
 
 - [x] T001 Inicializar el proyecto con Expo, React Native y TypeScript configurando `package.json` y `app.json`
 - [x] T002 [P] Configurar TypeScript con tipado estricto y resolución de alias en `tsconfig.json`
-- [ ] T003 [P] Configurar el layout raíz de navegación y temas con expo-router en `app/_layout.tsx`
+- [x] T003 [P] Configurar el layout raíz de navegación y temas con expo-router en `app/_layout.tsx`
 
 ---
 
