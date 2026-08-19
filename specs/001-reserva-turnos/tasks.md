@@ -19,7 +19,7 @@
 **Propósito**: Modelos de datos, tipos de dominio, mocks locales, utilidades y componentes base compartidos.
 
 - [x] T004 [P] Definir tipos e interfaces TypeScript para Cancha y Servicios en `types/cancha.ts`
-- [ ] T005 [P] Definir tipos e interfaces TypeScript para TurnoReserva, Formulario y Errores en `types/reserva.ts`
+- [x] T005 [P] Definir tipos e interfaces TypeScript para TurnoReserva, Formulario y Errores en `types/reserva.ts`
 - [ ] T006 [P] Implementar la utilidad de simulación de latencia de red asíncrona en `utils/delay.ts`
 - [ ] T007 [P] Implementar utilidades de formateo de moneda y fechas en `utils/formateadores.ts`
 - [ ] T008 Crear el conjunto de datos mock con las 6 canchas fijas (3 Fútbol 5 y 3 Fútbol 6) en `services/mockData.ts`
