@@ -24,7 +24,7 @@
 - [x] T007 [P] Implementar utilidades de formateo de moneda y fechas en `utils/formateadores.ts`
 - [x] T008 Crear el conjunto de datos mock con las 6 canchas fijas (3 Fútbol 5 y 3 Fútbol 6) en `services/mockData.ts`
 - [x] T009 [P] Crear el componente reutilizable de indicador de carga en `components/EstadoCarga.tsx`
-- [ ] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
+- [x] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
 - [ ] T011 [P] Crear el componente reutilizable de insignia de categoría en `components/BadgeTipo.tsx`
 - [ ] T012 [P] Crear el componente reutilizable de botón de acción con soporte de carga en `components/BotonAccion.tsx`
 - [ ] T013 Implementar el contexto global y proveedor de reservas en `context/ReservasContext.tsx`
