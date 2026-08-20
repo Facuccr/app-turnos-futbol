@@ -2,21 +2,22 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { canchasService } from '@/services/canchasService';
+import { useReservas } from '@/context/ReservasContext';
+import { reservasService } from '@/services/reservasService';
 import { EstadoCarga } from '@/components/EstadoCarga';
-import { TarjetaCancha } from '@/components/TarjetaCancha';
-import { Cancha } from '@/types/cancha';
+import { EstadoVacio } from '@/components/EstadoVacio';
+import { TarjetaTurno } from '@/components/TarjetaTurno';
+import { TurnoReserva } from '@/types/reserva';
 
-export default function PantallaCatalogoCanchas() {
+export default function PantallaHistorialTurnos() {
   const router = useRouter();
-  const [canchas, setCanchas] = useState<Cancha[]>([]);
+  const { reservas } = useReservas();
   const [cargando, setCargando] = useState<boolean>(true);
   const [refrescando, setRefrescando] = useState<boolean>(false);
 
-  const cargarCanchas = useCallback(async () => {
+  const cargarHistorial = useCallback(async () => {
     try {
-      const datos = await canchasService.obtenerCanchas();
-      setCanchas(datos);
+      await reservasService.obtenerHistorial();
     } catch (error) {
       console.error(error);
     } finally {
@@ -26,34 +27,51 @@ export default function PantallaCatalogoCanchas() {
   }, []);
 
   useEffect(() => {
-    cargarCanchas();
-  }, [cargarCanchas]);
+    cargarHistorial();
+  }, [cargarHistorial]);
 
   const alRefrescar = useCallback(() => {
     setRefrescando(true);
-    cargarCanchas();
-  }, [cargarCanchas]);
+    cargarHistorial();
+  }, [cargarHistorial]);
 
   if (cargando) {
     return (
       <SafeAreaView style={styles.contenedorCarga} edges={['top', 'left', 'right']}>
-        <EstadoCarga mensaje="Cargando canchas del complejo..." />
+        <EstadoCarga mensaje="Cargando historial de turnos..." />
       </SafeAreaView>
     );
   }
 
-  const renderizarItem = ({ item }: { item: Cancha }) => (
-    <TarjetaCancha
-      cancha={item}
-      onPress={() => router.push(`/cancha/${item.id}` as any)}
-    />
+  if (reservas.length === 0) {
+    return (
+      <SafeAreaView style={styles.contenedor} edges={['top', 'left', 'right']}>
+        <View style={styles.encabezado}>
+          <Text style={styles.titulo}>Mis Turnos</Text>
+          <Text style={styles.subtitulo}>
+            Historial de tus reservas y partidos confirmados.
+          </Text>
+        </View>
+        <EstadoVacio
+          titulo="Aún no tienes turnos reservados"
+          mensaje="No registras ninguna reserva en tu cuenta. Explora nuestro catálogo de canchas y agenda tu partido."
+          textoBoton="Explorar canchas"
+          onAccion={() => router.push('/(tabs)' as any)}
+          nombreIcono="event-note"
+        />
+      </SafeAreaView>
+    );
+  }
+
+  const renderizarItem = ({ item }: { item: TurnoReserva }) => (
+    <TarjetaTurno turno={item} />
   );
 
   const renderizarEncabezado = () => (
     <View style={styles.encabezado}>
-      <Text style={styles.titulo}>Canchas Disponibles</Text>
+      <Text style={styles.titulo}>Mis Turnos</Text>
       <Text style={styles.subtitulo}>
-        Explora nuestras canchas de Fútbol 5 y Fútbol 6 y reserva tu próximo partido.
+        Historial de tus reservas y partidos confirmados.
       </Text>
     </View>
   );
@@ -61,7 +79,7 @@ export default function PantallaCatalogoCanchas() {
   return (
     <SafeAreaView style={styles.contenedor} edges={['top', 'left', 'right']}>
       <FlatList
-        data={canchas}
+        data={reservas}
         keyExtractor={(item) => item.id}
         renderItem={renderizarItem}
         ListHeaderComponent={renderizarEncabezado}
@@ -97,6 +115,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   encabezado: {
+    paddingHorizontal: 16,
     marginBottom: 16,
     marginTop: 8,
   },
