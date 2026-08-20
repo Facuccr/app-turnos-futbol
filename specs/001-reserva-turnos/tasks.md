@@ -39,7 +39,7 @@
 
 **Criterio de Prueba Independiente**: Iniciar la aplicación en la pantalla principal; se observa el indicador de carga y luego se listan las 6 canchas con nombre, tipo y precio.
 
-- [ ] T014 [P] [US1] Implementar el servicio mock asíncrono para consulta del catálogo de canchas en `services/canchasService.ts`
+- [x] T014 [P] [US1] Implementar el servicio mock asíncrono para consulta del catálogo de canchas en `services/canchasService.ts`
 - [ ] T015 [P] [US1] Crear el componente de tarjeta de cancha para el catálogo en `components/TarjetaCancha.tsx`
 - [ ] T016 [US1] Crear la navegación por pestañas para catálogo e historial en `app/(tabs)/_layout.tsx`
 - [ ] T017 [US1] Implementar la pantalla principal de catálogo con visualización de canchas y estado de carga en `app/(tabs)/index.tsx`
