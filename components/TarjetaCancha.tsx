@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Cancha } from '@/types/cancha';
 import { BadgeTipo } from '@/components/BadgeTipo';
 import { formatearMoneda } from '@/utils/formateadores';
@@ -10,10 +11,14 @@ export interface TarjetaCanchaProps {
 }
 
 export const TarjetaCancha: React.FC<TarjetaCanchaProps> = ({ cancha, onPress }) => {
+  const [errorImagen, setErrorImagen] = useState<boolean>(false);
+
   const imagenPorDefecto =
     cancha.tipo === 'Fútbol 5'
-      ? 'https://images.unsplash.com/photo-1529900240051-06c3960f15d8?w=800&auto=format&fit=crop&q=60'
-      : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=60';
+      ? 'https://images.unsplash.com/photo-1529900240051-06c3960f15d8?w=800&auto=format&fit=crop&q=80'
+      : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=80';
+
+  const uriImagen = cancha.imagenUrl || imagenPorDefecto;
 
   return (
     <TouchableOpacity
@@ -23,11 +28,20 @@ export const TarjetaCancha: React.FC<TarjetaCanchaProps> = ({ cancha, onPress })
       accessibilityRole="button"
       accessibilityLabel={`${cancha.nombre}, ${cancha.tipo}, precio ${formatearMoneda(cancha.precioPorTurno)} por turno`}
     >
-      <Image
-        source={{ uri: cancha.imagenUrl || imagenPorDefecto }}
-        style={styles.imagen}
-        resizeMode="cover"
-      />
+      {!errorImagen ? (
+        <Image
+          source={{ uri: uriImagen }}
+          style={styles.imagen}
+          resizeMode="cover"
+          onError={() => setErrorImagen(true)}
+        />
+      ) : (
+        <View style={styles.contenedorFallback}>
+          <MaterialIcons name="sports-soccer" size={48} color="#94a3b8" />
+          <Text style={styles.textoFallback}>{cancha.nombre}</Text>
+        </View>
+      )}
+
       <View style={styles.cuerpo}>
         <View style={styles.encabezado}>
           <Text style={styles.nombre} numberOfLines={1}>
@@ -72,8 +86,23 @@ const styles = StyleSheet.create({
   },
   imagen: {
     width: '100%',
-    height: 140,
+    height: 150,
     backgroundColor: '#f1f5f9',
+  },
+  contenedorFallback: {
+    width: '100%',
+    height: 150,
+    backgroundColor: '#e2e8f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 16,
+  },
+  textoFallback: {
+    marginTop: 8,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#64748b',
+    textAlign: 'center',
   },
   cuerpo: {
     padding: 16,

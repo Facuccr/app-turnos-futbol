@@ -20,6 +20,7 @@ import { BotonAccion } from '@/components/BotonAccion';
 import { CampoTexto } from '@/components/CampoTexto';
 import { EstadoCarga } from '@/components/EstadoCarga';
 import { ModalConfirmacion } from '@/components/ModalConfirmacion';
+import { SelectorFecha } from '@/components/SelectorFecha';
 import { formatearMoneda } from '@/utils/formateadores';
 import { Cancha } from '@/types/cancha';
 import { ErroresFormulario, FormularioReserva, TurnoReserva } from '@/types/reserva';
@@ -35,7 +36,7 @@ const FRANJAS_HORARIAS = [
 export default function PantallaFormularioReserva() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { agregarReserva } = useReservas();
+  const { agregarReserva, estaTurnoOcupado } = useReservas();
 
   const [cancha, setCancha] = useState<Cancha | null>(null);
   const [cargandoCancha, setCargandoCancha] = useState<boolean>(true);
@@ -75,16 +76,24 @@ export default function PantallaFormularioReserva() {
 
   const actualizarCampo = (campo: keyof FormularioReserva, valor: string) => {
     setFormulario((prev) => ({ ...prev, [campo]: valor }));
-    if (errores[campo]) {
+    if (errores[campo] || errores.general) {
       setErrores((prev) => {
         const nuevosErrores = { ...prev };
         delete nuevosErrores[campo];
+        delete nuevosErrores.general;
         return nuevosErrores;
       });
     }
   };
 
   const seleccionarHorario = (franja: string) => {
+    if (cancha && formulario.fecha && estaTurnoOcupado(cancha.id, formulario.fecha, franja)) {
+      setErrores((prev) => ({
+        ...prev,
+        horario: 'Este horario ya se encuentra reservado',
+      }));
+      return;
+    }
     actualizarCampo('horario', franja);
   };
 
@@ -96,6 +105,13 @@ export default function PantallaFormularioReserva() {
     const resultadoValidacion = validadorReserva.validar(formulario);
     if (!resultadoValidacion.esValido) {
       setErrores(resultadoValidacion.errores);
+      return;
+    }
+
+    if (estaTurnoOcupado(cancha.id, formulario.fecha, formulario.horario)) {
+      setErrores({
+        general: 'Ya existe una reserva confirmada para esta cancha en la fecha y horario seleccionados',
+      });
       return;
     }
 
@@ -207,12 +223,11 @@ export default function PantallaFormularioReserva() {
               keyboardType="phone-pad"
             />
 
-            <CampoTexto
-              etiqueta="Fecha del turno (AAAA-MM-DD) *"
-              placeholder="Ej. 2026-08-25"
-              value={formulario.fecha}
-              onChangeText={(texto) => actualizarCampo('fecha', texto)}
+            <SelectorFecha
+              fechaSeleccionada={formulario.fecha}
+              onSeleccionarFecha={(fecha) => actualizarCampo('fecha', fecha)}
               error={errores.fecha}
+              etiqueta="Fecha del turno *"
             />
 
             <View style={styles.seccionHorario}>
@@ -220,13 +235,18 @@ export default function PantallaFormularioReserva() {
               <View style={styles.grillaHorarios}>
                 {FRANJAS_HORARIAS.map((franja) => {
                   const seleccionada = formulario.horario === franja;
+                  const ocupado =
+                    !!formulario.fecha &&
+                    estaTurnoOcupado(cancha.id, formulario.fecha, franja);
+
                   return (
                     <TouchableOpacity
                       key={franja}
-                      activeOpacity={0.7}
+                      activeOpacity={ocupado ? 1 : 0.7}
                       style={[
                         styles.chipHorario,
                         seleccionada && styles.chipHorarioSeleccionado,
+                        ocupado && styles.chipHorarioOcupado,
                       ]}
                       onPress={() => seleccionarHorario(franja)}
                     >
@@ -234,9 +254,10 @@ export default function PantallaFormularioReserva() {
                         style={[
                           styles.textoChipHorario,
                           seleccionada && styles.textoChipHorarioSeleccionado,
+                          ocupado && styles.textoChipHorarioOcupado,
                         ]}
                       >
-                        {franja}
+                        {franja} {ocupado ? '(Ocupado)' : ''}
                       </Text>
                     </TouchableOpacity>
                   );
@@ -412,6 +433,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#0284c7',
     borderColor: '#0284c7',
   },
+  chipHorarioOcupado: {
+    backgroundColor: '#f1f5f9',
+    borderColor: '#e2e8f0',
+    opacity: 0.55,
+  },
   textoChipHorario: {
     fontSize: 14,
     fontWeight: '600',
@@ -419,6 +445,10 @@ const styles = StyleSheet.create({
   },
   textoChipHorarioSeleccionado: {
     color: '#ffffff',
+  },
+  textoChipHorarioOcupado: {
+    color: '#94a3b8',
+    textDecorationLine: 'line-through',
   },
   textoErrorHorario: {
     fontSize: 12,

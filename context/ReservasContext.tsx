@@ -7,6 +7,7 @@ export interface ReservasContextType {
   agregarReserva: (turno: TurnoReserva) => void;
   agregarTurno: (turno: TurnoReserva) => void;
   limpiarReservas: () => void;
+  estaTurnoOcupado: (canchaId: string, fecha: string, horario: string) => boolean;
 }
 
 export const ReservasContext = createContext<ReservasContextType | undefined>(undefined);
@@ -34,6 +35,23 @@ export function ReservasProvider({
     setReservas([]);
   };
 
+  const estaTurnoOcupado = (
+    canchaId: string,
+    fecha: string,
+    horario: string
+  ): boolean => {
+    const fechaLimpia = fecha.trim();
+    const horarioLimpio = horario.trim();
+
+    return reservas.some(
+      (turno) =>
+        turno.canchaId === canchaId &&
+        turno.fecha.trim() === fechaLimpia &&
+        turno.horario.trim() === horarioLimpio &&
+        turno.estado !== 'Cancelado'
+    );
+  };
+
   return (
     <ReservasContext.Provider
       value={{
@@ -42,6 +60,7 @@ export function ReservasProvider({
         agregarReserva,
         agregarTurno,
         limpiarReservas,
+        estaTurnoOcupado,
       }}
     >
       {children}

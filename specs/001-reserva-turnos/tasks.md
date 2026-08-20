@@ -95,7 +95,7 @@
 
 **Propósito**: Ajustes de consistencia, accesibilidad y validación integral de escenarios.
 
-- [ ] T021 Ejecutar y validar los escenarios de prueba de negocio de extremo a extremo descritos en `specs/001-reserva-turnos/quickstart.md` y consistencia visual
+- [x] T021 Ejecutar y validar los escenarios de prueba de negocio de extremo a extremo descritos en `specs/001-reserva-turnos/quickstart.md` y consistencia visual
 
 ---
 

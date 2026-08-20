@@ -21,6 +21,7 @@ export default function PantallaDetalleCancha() {
   const router = useRouter();
   const [cancha, setCancha] = useState<Cancha | null>(null);
   const [cargando, setCargando] = useState<boolean>(true);
+  const [errorImagen, setErrorImagen] = useState<boolean>(false);
 
   const cargarDetalle = useCallback(async () => {
     if (!id) {
@@ -71,8 +72,10 @@ export default function PantallaDetalleCancha() {
 
   const imagenPorDefecto =
     cancha.tipo === 'Fútbol 5'
-      ? 'https://images.unsplash.com/photo-1529900240051-06c3960f15d8?w=800&auto=format&fit=crop&q=60'
-      : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=60';
+      ? 'https://images.unsplash.com/photo-1529900240051-06c3960f15d8?w=800&auto=format&fit=crop&q=80'
+      : 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=80';
+
+  const uriImagen = cancha.imagenUrl || imagenPorDefecto;
 
   return (
     <SafeAreaView style={styles.contenedor} edges={['bottom', 'left', 'right']}>
@@ -80,11 +83,19 @@ export default function PantallaDetalleCancha() {
         contentContainerStyle={styles.scrollContenido}
         showsVerticalScrollIndicator={false}
       >
-        <Image
-          source={{ uri: cancha.imagenUrl || imagenPorDefecto }}
-          style={styles.imagen}
-          resizeMode="cover"
-        />
+        {!errorImagen ? (
+          <Image
+            source={{ uri: uriImagen }}
+            style={styles.imagen}
+            resizeMode="cover"
+            onError={() => setErrorImagen(true)}
+          />
+        ) : (
+          <View style={styles.contenedorFallback}>
+            <MaterialIcons name="sports-soccer" size={64} color="#94a3b8" />
+            <Text style={styles.textoFallback}>{cancha.nombre}</Text>
+          </View>
+        )}
 
         <View style={styles.cuerpo}>
           <View style={styles.encabezado}>
@@ -182,6 +193,21 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 220,
     backgroundColor: '#e2e8f0',
+  },
+  contenedorFallback: {
+    width: '100%',
+    height: 220,
+    backgroundColor: '#e2e8f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  textoFallback: {
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#64748b',
+    textAlign: 'center',
   },
   cuerpo: {
     padding: 20,

@@ -11,6 +11,25 @@ export const obtenerHistorial = async (): Promise<TurnoReserva[]> => {
   return [...turnosMemoria];
 };
 
+export const verificarDisponibilidad = (
+  canchaId: string,
+  fecha: string,
+  horario: string
+): boolean => {
+  const fechaLimpia = fecha.trim();
+  const horarioLimpio = horario.trim();
+
+  const existe = turnosMemoria.some(
+    (turno) =>
+      turno.canchaId === canchaId &&
+      turno.fecha.trim() === fechaLimpia &&
+      turno.horario.trim() === horarioLimpio &&
+      turno.estado !== 'Cancelado'
+  );
+
+  return !existe;
+};
+
 export const crearReserva = async (
   datos: FormularioReserva,
   cancha: Cancha
@@ -18,6 +37,13 @@ export const crearReserva = async (
   const validacion = validarFormularioReserva(datos);
   if (!validacion.esValido) {
     throw new Error('Todos los campos obligatorios deben ser completados');
+  }
+
+  const disponible = verificarDisponibilidad(cancha.id, datos.fecha, datos.horario);
+  if (!disponible) {
+    throw new Error(
+      'Ya existe una reserva confirmada para esta cancha en la fecha y horario seleccionados'
+    );
   }
 
   await delay(600);
@@ -48,6 +74,7 @@ export const reiniciarHistorial = async (): Promise<void> => {
 
 export const reservasService = {
   obtenerHistorial,
+  verificarDisponibilidad,
   crearReserva,
   reiniciarHistorial,
 };
