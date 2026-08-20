@@ -21,13 +21,13 @@
 - [x] T004 [P] Definir tipos e interfaces TypeScript para Cancha y Servicios en `types/cancha.ts`
 - [x] T005 [P] Definir tipos e interfaces TypeScript para TurnoReserva, Formulario y Errores en `types/reserva.ts`
 - [x] T006 [P] Implementar la utilidad de simulación de latencia de red asíncrona en `utils/delay.ts`
-- [ ] T007 [P] Implementar utilidades de formateo de moneda y fechas en `utils/formateadores.ts`
-- [ ] T008 Crear el conjunto de datos mock con las 6 canchas fijas (3 Fútbol 5 y 3 Fútbol 6) en `services/mockData.ts`
-- [ ] T009 [P] Crear el componente reutilizable de indicador de carga en `components/EstadoCarga.tsx`
-- [ ] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
-- [ ] T011 [P] Crear el componente reutilizable de insignia de categoría en `components/BadgeTipo.tsx`
-- [ ] T012 [P] Crear el componente reutilizable de botón de acción con soporte de carga en `components/BotonAccion.tsx`
-- [ ] T013 Implementar el contexto global y proveedor de reservas en `context/ReservasContext.tsx`
+- [x] T007 [P] Implementar utilidades de formateo de moneda y fechas en `utils/formateadores.ts`
+- [x] T008 Crear el conjunto de datos mock con las 6 canchas fijas (3 Fútbol 5 y 3 Fútbol 6) en `services/mockData.ts`
+- [x] T009 [P] Crear el componente reutilizable de indicador de carga en `components/EstadoCarga.tsx`
+- [x] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
+- [x] T011 [P] Crear el componente reutilizable de insignia de categoría en `components/BadgeTipo.tsx`
+- [x] T012 [P] Crear el componente reutilizable de botón de acción con soporte de carga en `components/BotonAccion.tsx`
+- [x] T013 Implementar el contexto global y proveedor de reservas en `context/ReservasContext.tsx`
 
 **Punto de Control**: Infraestructura base completada. La implementación de historias de usuario puede comenzar.
 
@@ -42,7 +42,7 @@
 - [x] T014 [P] [US1] Implementar el servicio mock asíncrono para consulta del catálogo de canchas en `services/canchasService.ts`
 - [x] T015 [P] [US1] Crear el componente de tarjeta de cancha para el catálogo en `components/TarjetaCancha.tsx`
 - [x] T016 [US1] Crear la navegación por pestañas para catálogo e historial en `app/(tabs)/_layout.tsx`
-- [ ] T017 [US1] Implementar la pantalla principal de catálogo con visualización de canchas y estado de carga en `app/(tabs)/index.tsx`
+- [x] T017 [US1] Implementar la pantalla principal de catálogo con visualización de canchas y estado de carga en `app/(tabs)/index.tsx`
 
 **Punto de Control**: La Historia de Usuario 1 es completamente funcional y constituye el MVP de visualización.
 
@@ -54,24 +54,19 @@
 
 **Criterio de Prueba Independiente**: Seleccionar cualquier cancha del catálogo; el sistema navega a la pantalla de detalle mostrando su ficha completa y el botón para reservar.
 
-- [ ] T018 [P] [US2] Extender el servicio de canchas con la función de consulta por identificador en `services/canchasService.ts`
-- [ ] T019 [US2] Implementar la pantalla de ficha de detalle de cancha con servicios y botón de reserva en `app/cancha/[id].tsx`
+- [ ] T018 [US2] Implementar el módulo completo de detalle de cancha (servicio de consulta por identificador en `services/canchasService.ts` y pantalla en `app/cancha/[id].tsx`)
 
 **Punto de Control**: Las Historias de Usuario 1 y 2 funcionan de manera integrada y navegable.
 
 ---
 
-## Fase 5: Historia de Usuario 3 - Formulario de Reserva con Validación Estricta (Prioridad: P3)
+## Fase 5: Historia de Usuario 3 - Formulario y Flujo de Reserva (Prioridad: P3)
 
 **Objetivo**: Permitir al usuario completar y registrar su reserva con validación estricta que impida campos vacíos.
 
 **Criterio de Prueba Independiente**: Abrir el formulario de reserva, intentar enviar con campos vacíos (verificando el bloqueo y mensajes de error) y luego completar datos válidos para recibir el modal de confirmación.
 
-- [ ] T020 [P] [US3] Implementar el validador estricto de campos obligatorios para el formulario de reserva en `utils/validadorReserva.ts`
-- [ ] T021 [P] [US3] Crear el componente reutilizable de campo de texto con mensajes de error en `components/CampoTexto.tsx`
-- [ ] T022 [P] [US3] Crear el componente modal de confirmación con resumen de la reserva en `components/ModalConfirmacion.tsx`
-- [ ] T023 [US3] Implementar la función de creación y registro de turnos en `services/reservasService.ts`
-- [ ] T024 [US3] Implementar la pantalla de formulario de reserva con validación estricta y modal de confirmación en `app/reserva/[id].tsx`
+- [ ] T019 [US3] Implementar el flujo integral de reserva (validador estricto en `utils/validadorReserva.ts`, componentes `CampoTexto` y `ModalConfirmacion`, servicio `services/reservasService.ts` y pantalla `app/reserva/[id].tsx`)
 
 **Punto de Control**: El flujo transaccional de reserva está completado y validado contra errores de entrada.
 
@@ -83,9 +78,7 @@
 
 **Criterio de Prueba Independiente**: Acceder a la pestaña de historial antes de reservar para verificar el estado vacío, y tras realizar reservas para verificar el listado cronológico de turnos confirmados.
 
-- [ ] T025 [P] [US4] Implementar la función de consulta del historial de turnos en `services/reservasService.ts`
-- [ ] T026 [P] [US4] Crear el componente de tarjeta de turno para la lista de historial en `components/TarjetaTurno.tsx`
-- [ ] T027 [US4] Implementar la pantalla de historial de turnos con soporte de estado de carga y estado vacío en `app/(tabs)/historial.tsx`
+- [ ] T020 [US4] Implementar el módulo completo de historial de turnos (consulta en `services/reservasService.ts`, componente `TarjetaTurno` y pantalla `app/(tabs)/historial.tsx` con estados de carga y vacío)
 
 **Punto de Control**: Todas las historias de usuario están implementadas y el ciclo completo de la aplicación es funcional.
 
@@ -95,8 +88,7 @@
 
 **Propósito**: Ajustes de consistencia, accesibilidad y validación integral de escenarios.
 
-- [ ] T028 [P] Verificar la consistencia visual, accesibilidad y textos en idioma español en todos los componentes
-- [ ] T029 Ejecutar y validar los 4 escenarios de prueba de negocio de extremo a extremo descritos en `specs/001-reserva-turnos/quickstart.md`
+- [ ] T021 Ejecutar y validar los escenarios de prueba de negocio de extremo a extremo descritos en `specs/001-reserva-turnos/quickstart.md` y consistencia visual
 
 ---
 
@@ -104,38 +96,26 @@
 
 ### Dependencias entre Fases
 
-1. **Fase 1 (Configuración)**: Sin dependencias previas; inicio inmediato.
-2. **Fase 2 (Fundacional)**: Depende de la Fase 1; bloquea el desarrollo de todas las historias de usuario.
-3. **Fase 3 (Historia 1 - P1)**: Depende de la Fase 2; entrega el MVP funcional.
-4. **Fase 4 (Historia 2 - P2)**: Depende de la Fase 2 y se integra con la Fase 3.
-5. **Fase 5 (Historia 3 - P3)**: Depende de la Fase 2 y de la navegación provista por la Fase 4.
-6. **Fase 6 (Historia 4 - P4)**: Depende de la Fase 2 y del contexto de reservas poblado en la Fase 5.
-7. **Fase 7 (Pulido y Verificación)**: Depende de la finalización de las Fases 3 a 6.
-
-### Oportunidades de Ejecución Paralela
-
-- En **Fase 1**: T002 y T003 pueden desarrollarse en paralelo tras T001.
-- En **Fase 2**: T004, T005, T006, T007, T009, T010, T011 y T012 pueden implementarse en paralelo por afectar archivos independientes.
-- En **Fase 3**: T014 y T015 pueden desarrollarse en paralelo antes de ensamblar la pantalla en T017.
-- En **Fase 5**: T020, T021 y T022 pueden implementarse en paralelo antes de ensamblar la pantalla de reserva en T024.
-- En **Fase 6**: T025 y T026 pueden implementarse en paralelo antes de la pantalla en T027.
+1. **Fase 1 (Configuración)**: Completada.
+2. **Fase 2 (Fundacional)**: Completada.
+3. **Fase 3 (Historia 1 - P1)**: Completada (MVP funcional).
+4. **Fase 4 (Historia 2 - P2 - T018)**: Depende de las Fases 1 a 3.
+5. **Fase 5 (Historia 3 - P3 - T019)**: Depende de la navegación provista por T018 y el contexto global.
+6. **Fase 6 (Historia 4 - P4 - T020)**: Depende del contexto de reservas poblado en T019.
+7. **Fase 7 (Verificación - T021)**: Depende de la finalización de las tareas T018 a T020.
 
 ---
 
 ## Estrategia de Implementación Incremental
 
-### 1. Alcance MVP (Fases 1, 2 y 3)
+### 1. Alcance MVP (Fases 1, 2 y 3: T001 a T017)
+- Contempla el proyecto configurado, servicios base, modelos de dominio, componentes comunes y el catálogo funcional de 6 canchas fijas.
 
-- Permite contar con una aplicación funcional en Expo que arranca, simula latencia y presenta de forma atractiva las 6 canchas del complejo deportivo.
+### 2. Incremento de Valor 1 (Fase 4: T018)
+- Agrega la consulta individual y vista detallada de la cancha con su lista de comodidades y botón de reserva.
 
-### 2. Incremento de Valor 1 (Fase 4)
+### 3. Incremento de Valor 2 (Fase 5: T019)
+- Incorpora la lógica transaccional completa de reserva, validación estricta de campos obligatorios y diálogo modal de confirmación.
 
-- Agrega la vista detallada de la cancha con su lista de comodidades (luz, duchas, buffet, etc.).
-
-### 3. Incremento de Valor 2 (Fase 5)
-
-- Incorpora la lógica transaccional de reserva y la validación estricta de campos obligatorios.
-
-### 4. Incremento de Valor 3 (Fase 6 y 7)
-
-- Cierra el ciclo de usuario con la consulta de historial de partidos, manejo de estados vacíos y verificación integral.
+### 4. Incremento de Valor 3 (Fases 6 y 7: T020 y T021)
+- Cierra el ciclo de usuario con la consulta de historial de partidos, manejo de estados vacíos y verificación integral de escenarios.
