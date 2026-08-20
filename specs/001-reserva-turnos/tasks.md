@@ -26,7 +26,7 @@
 - [ ] T009 [P] Crear el componente reutilizable de indicador de carga en `components/EstadoCarga.tsx`
 - [ ] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
 - [x] T011 [P] Crear el componente reutilizable de insignia de categoría en `components/BadgeTipo.tsx`
-- [ ] T012 [P] Crear el componente reutilizable de botón de acción con soporte de carga en `components/BotonAccion.tsx`
+- [x] T012 [P] Crear el componente reutilizable de botón de acción con soporte de carga en `components/BotonAccion.tsx`
 - [ ] T013 Implementar el contexto global y proveedor de reservas en `context/ReservasContext.tsx`
 
 **Punto de Control**: Infraestructura base completada. La implementación de historias de usuario puede comenzar.
