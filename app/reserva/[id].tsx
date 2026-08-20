@@ -1,3 +1,4 @@
+// importacion de hooks elementos de formulario y validacion
 import React, { useEffect, useState, useCallback } from 'react';
 import {
   KeyboardAvoidingView,
@@ -25,6 +26,7 @@ import { formatearMoneda } from '@/utils/formateadores';
 import { Cancha } from '@/types/cancha';
 import { ErroresFormulario, FormularioReserva, TurnoReserva } from '@/types/reserva';
 
+// franjas horarias disponibles para reserva
 const FRANJAS_HORARIAS = [
   '18:00 - 19:00',
   '19:00 - 20:00',
@@ -33,14 +35,18 @@ const FRANJAS_HORARIAS = [
   '22:00 - 23:00',
 ];
 
+// pantalla con el formulario interactivo para la creacion y confirmacion de reservas
 export default function PantallaFormularioReserva() {
+  // identificador de la cancha seleccionada y utilidades de navegacion
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const { agregarReserva, estaTurnoOcupado } = useReservas();
 
+  // estados de la cancha y control de carga
   const [cancha, setCancha] = useState<Cancha | null>(null);
   const [cargandoCancha, setCargandoCancha] = useState<boolean>(true);
 
+  // estado de los campos del formulario de reserva
   const [formulario, setFormulario] = useState<FormularioReserva>({
     titularNombre: '',
     titularTelefono: '',
@@ -48,11 +54,13 @@ export default function PantallaFormularioReserva() {
     horario: '',
   });
 
+  // estados para la validacion envio y confirmacion modal
   const [errores, setErrores] = useState<ErroresFormulario>({});
   const [enviando, setEnviando] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [turnoConfirmado, setTurnoConfirmado] = useState<TurnoReserva | null>(null);
 
+  // funcion para consultar la cancha seleccionada
   const cargarCancha = useCallback(async () => {
     if (!id) {
       setCargandoCancha(false);
@@ -70,10 +78,12 @@ export default function PantallaFormularioReserva() {
     }
   }, [id]);
 
+  // carga de la informacion de la cancha al iniciar
   useEffect(() => {
     cargarCancha();
   }, [cargarCancha]);
 
+  // actualizacion de campos del formulario con limpieza reactiva de errores
   const actualizarCampo = (campo: keyof FormularioReserva, valor: string) => {
     setFormulario((prev) => ({ ...prev, [campo]: valor }));
     if (errores[campo] || errores.general) {
@@ -86,6 +96,7 @@ export default function PantallaFormularioReserva() {
     }
   };
 
+  // seleccion de franja horaria con comprobacion inmediata de disponibilidad
   const seleccionarHorario = (franja: string) => {
     if (cancha && formulario.fecha && estaTurnoOcupado(cancha.id, formulario.fecha, franja)) {
       setErrores((prev) => ({
@@ -97,17 +108,20 @@ export default function PantallaFormularioReserva() {
     actualizarCampo('horario', franja);
   };
 
+  // validacion estricta y procesamiento de la reserva
   const manejarEnvio = async () => {
     if (!cancha) {
       return;
     }
 
+    // ejecucion del validador de formulario
     const resultadoValidacion = validadorReserva.validar(formulario);
     if (!resultadoValidacion.esValido) {
       setErrores(resultadoValidacion.errores);
       return;
     }
 
+    // verificacion de turno ocupado
     if (estaTurnoOcupado(cancha.id, formulario.fecha, formulario.horario)) {
       setErrores({
         general: 'Ya existe una reserva confirmada para esta cancha en la fecha y horario seleccionados',
@@ -115,6 +129,7 @@ export default function PantallaFormularioReserva() {
       return;
     }
 
+    // persistencia asincrona y apertura del modal de confirmacion
     try {
       setEnviando(true);
       setErrores({});
@@ -131,16 +146,19 @@ export default function PantallaFormularioReserva() {
     }
   };
 
+  // redireccion hacia el historial de reservas
   const navegarAHistorial = () => {
     setModalVisible(false);
     router.replace('/(tabs)/historial' as any);
   };
 
+  // redireccion hacia el catalogo principal
   const navegarAInicio = () => {
     setModalVisible(false);
     router.replace('/(tabs)' as any);
   };
 
+  // pantalla de carga durante la obtencion de datos
   if (cargandoCancha) {
     return (
       <SafeAreaView style={styles.contenedorCarga} edges={['bottom', 'left', 'right']}>
@@ -149,6 +167,7 @@ export default function PantallaFormularioReserva() {
     );
   }
 
+  // vista de error si no se encuentra la cancha
   if (!cancha) {
     return (
       <SafeAreaView style={styles.contenedorError} edges={['bottom', 'left', 'right']}>
@@ -167,6 +186,7 @@ export default function PantallaFormularioReserva() {
     );
   }
 
+  // renderizado del formulario con campos de contacto fecha horarios y modal de confirmacion
   return (
     <SafeAreaView style={styles.contenedor} edges={['bottom', 'left', 'right']}>
       <KeyboardAvoidingView
@@ -291,6 +311,7 @@ export default function PantallaFormularioReserva() {
   );
 }
 
+// estilos para el formulario de reserva y selector de horarios
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,

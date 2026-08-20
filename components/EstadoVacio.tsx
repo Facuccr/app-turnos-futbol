@@ -1,7 +1,9 @@
+// importacion de elementos de interfaz y libreria de iconos
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
+// propiedades para configurar la vista de estado vacio
 export interface EstadoVacioProps {
   titulo?: string;
   mensaje?: string;
@@ -10,6 +12,7 @@ export interface EstadoVacioProps {
   nombreIcono?: keyof typeof MaterialIcons.glyphMap;
 }
 
+// componente presentado cuando no existen registros disponibles
 export const EstadoVacio: React.FC<EstadoVacioProps> = ({
   titulo = 'No hay registros',
   mensaje = 'Aún no posees elementos para visualizar.',
@@ -17,6 +20,7 @@ export const EstadoVacio: React.FC<EstadoVacioProps> = ({
   onAccion,
   nombreIcono = 'event-busy',
 }) => {
+  // renderizado del icono titulo mensaje y boton de accion opcional
   return (
     <View style={styles.contenedor}>
       <View style={styles.contenedorIcono}>
@@ -37,8 +41,10 @@ export const EstadoVacio: React.FC<EstadoVacioProps> = ({
   );
 };
 
+// exportacion por defecto del componente de estado vacio
 export default EstadoVacio;
 
+// definicion de estilos para la pantalla vacia
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,

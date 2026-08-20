@@ -1,10 +1,14 @@
+// importacion de router y navegador web en expo
 import { Href, Link } from 'expo-router';
 import { openBrowserAsync, WebBrowserPresentationStyle } from 'expo-web-browser';
 import { type ComponentProps } from 'react';
 
+// definicion del tipo de propiedades para el enlace externo
 type Props = Omit<ComponentProps<typeof Link>, 'href'> & { href: Href & string };
 
+// componente para abrir enlaces externos en navegador integrado en plataformas nativas
 export function ExternalLink({ href, ...rest }: Props) {
+  // renderizado del enlace con interceptor de navegacion nativa
   return (
     <Link
       target="_blank"
@@ -12,9 +16,9 @@ export function ExternalLink({ href, ...rest }: Props) {
       href={href}
       onPress={async (event) => {
         if (process.env.EXPO_OS !== 'web') {
-          // Prevent the default behavior of linking to the default browser on native.
+          // prevencion del comportamiento por defecto en entornos nativos
           event.preventDefault();
-          // Open the link in an in-app browser.
+          // apertura del enlace dentro del navegador in app
           await openBrowserAsync(href, {
             presentationStyle: WebBrowserPresentationStyle.AUTOMATIC,
           });

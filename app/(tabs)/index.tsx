@@ -1,3 +1,4 @@
+// importacion de hooks componentes nativos y servicios
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,12 +8,17 @@ import { EstadoCarga } from '@/components/EstadoCarga';
 import { TarjetaCancha } from '@/components/TarjetaCancha';
 import { Cancha } from '@/types/cancha';
 
+// pantalla principal con el catalogo de canchas disponibles en formosa
 export default function PantallaCatalogoCanchas() {
+  // router para navegar al detalle de cada cancha
   const router = useRouter();
+
+  // estados locales para el listado de canchas y control de carga
   const [canchas, setCanchas] = useState<Cancha[]>([]);
   const [cargando, setCargando] = useState<boolean>(true);
   const [refrescando, setRefrescando] = useState<boolean>(false);
 
+  // funcion para consultar el listado de canchas desde el servicio
   const cargarCanchas = useCallback(async () => {
     try {
       const datos = await canchasService.obtenerCanchas();
@@ -25,15 +31,18 @@ export default function PantallaCatalogoCanchas() {
     }
   }, []);
 
+  // carga automatica de datos al montar la pantalla
   useEffect(() => {
     cargarCanchas();
   }, [cargarCanchas]);
 
+  // accion para recargar los datos mediante gesto pull to refresh
   const alRefrescar = useCallback(() => {
     setRefrescando(true);
     cargarCanchas();
   }, [cargarCanchas]);
 
+  // vista mostrada mientras se cargan los datos iniciales
   if (cargando) {
     return (
       <SafeAreaView style={styles.contenedorCarga} edges={['top', 'left', 'right']}>
@@ -42,6 +51,7 @@ export default function PantallaCatalogoCanchas() {
     );
   }
 
+  // funcion para renderizar cada tarjeta de cancha en la lista
   const renderizarItem = ({ item }: { item: Cancha }) => (
     <TarjetaCancha
       cancha={item}
@@ -49,6 +59,7 @@ export default function PantallaCatalogoCanchas() {
     />
   );
 
+  // encabezado superior de la lista con titulo y descripcion
   const renderizarEncabezado = () => (
     <View style={styles.encabezado}>
       <Text style={styles.titulo}>Canchas Disponibles</Text>
@@ -58,6 +69,7 @@ export default function PantallaCatalogoCanchas() {
     </View>
   );
 
+  // renderizado principal del listado optimizado con flatlist
   return (
     <SafeAreaView style={styles.contenedor} edges={['top', 'left', 'right']}>
       <FlatList
@@ -80,6 +92,7 @@ export default function PantallaCatalogoCanchas() {
   );
 }
 
+// estilos para el catalogo de canchas
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,

@@ -1,10 +1,13 @@
+// importacion de componentes de navegacion y estilos
 import { Link } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
+// componente de pantalla modal informativa
 export default function ModalScreen() {
+  // renderizado de la vista modal con enlace de retorno
   return (
     <ThemedView style={styles.container}>
       <ThemedText type="title">This is a modal</ThemedText>
@@ -15,6 +18,7 @@ export default function ModalScreen() {
   );
 }
 
+// estilos para centrar el contenido del modal
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -1,3 +1,4 @@
+// importacion de librerias de react native y componentes visuales
 import React, { useEffect, useState, useCallback } from 'react';
 import {
   Image,
@@ -16,13 +17,18 @@ import { EstadoCarga } from '@/components/EstadoCarga';
 import { formatearMoneda } from '@/utils/formateadores';
 import { Cancha } from '@/types/cancha';
 
+// pantalla de detalle tecnico e instalaciones de una cancha seleccionada
 export default function PantallaDetalleCancha() {
+  // extraccion del identificador de parametros de ruta
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+
+  // estados para la cancha seleccionada y control de carga
   const [cancha, setCancha] = useState<Cancha | null>(null);
   const [cargando, setCargando] = useState<boolean>(true);
   const [errorImagen, setErrorImagen] = useState<boolean>(false);
 
+  // funcion asincrona para obtener la informacion detallada de la cancha
   const cargarDetalle = useCallback(async () => {
     if (!id) {
       setCargando(false);
@@ -40,10 +46,12 @@ export default function PantallaDetalleCancha() {
     }
   }, [id]);
 
+  // carga de datos al iniciar la pantalla
   useEffect(() => {
     cargarDetalle();
   }, [cargarDetalle]);
 
+  // indicador visual de carga
   if (cargando) {
     return (
       <SafeAreaView style={styles.contenedorCarga} edges={['bottom', 'left', 'right']}>
@@ -52,6 +60,7 @@ export default function PantallaDetalleCancha() {
     );
   }
 
+  // vista mostrada en caso de que la cancha no exista
   if (!cancha) {
     return (
       <SafeAreaView style={styles.contenedorError} edges={['bottom', 'left', 'right']}>
@@ -70,6 +79,7 @@ export default function PantallaDetalleCancha() {
     );
   }
 
+  // asignacion de imagen por defecto si no posee una url especifica
   const imagenPorDefecto =
     cancha.tipo === 'Fútbol 5'
       ? 'https://images.unsplash.com/photo-1529900240051-06c3960f15d8?w=800&auto=format&fit=crop&q=80'
@@ -77,6 +87,7 @@ export default function PantallaDetalleCancha() {
 
   const uriImagen = cancha.imagenUrl || imagenPorDefecto;
 
+  // renderizado del detalle completo de la cancha con imagen descripcion servicios y boton de reserva
   return (
     <SafeAreaView style={styles.contenedor} edges={['bottom', 'left', 'right']}>
       <ScrollView
@@ -151,6 +162,7 @@ export default function PantallaDetalleCancha() {
   );
 }
 
+// estilos de la pantalla de detalle de cancha
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,

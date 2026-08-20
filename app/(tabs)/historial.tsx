@@ -1,3 +1,4 @@
+// importacion de hooks componentes y contexto de reservas
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,12 +10,17 @@ import { EstadoVacio } from '@/components/EstadoVacio';
 import { TarjetaTurno } from '@/components/TarjetaTurno';
 import { TurnoReserva } from '@/types/reserva';
 
+// pantalla de historial para consultar los turnos reservados por el usuario
 export default function PantallaHistorialTurnos() {
+  // inicializacion de router y contexto global de reservas
   const router = useRouter();
   const { reservas } = useReservas();
+
+  // estados para controlar carga y actualizacion de datos
   const [cargando, setCargando] = useState<boolean>(true);
   const [refrescando, setRefrescando] = useState<boolean>(false);
 
+  // funcion asincrona para recargar el historial de turnos
   const cargarHistorial = useCallback(async () => {
     try {
       await reservasService.obtenerHistorial();
@@ -26,15 +32,18 @@ export default function PantallaHistorialTurnos() {
     }
   }, []);
 
+  // carga del historial al montar el componente
   useEffect(() => {
     cargarHistorial();
   }, [cargarHistorial]);
 
+  // accion para recargar mediante gesto pull to refresh
   const alRefrescar = useCallback(() => {
     setRefrescando(true);
     cargarHistorial();
   }, [cargarHistorial]);
 
+  // vista de espera durante la carga inicial
   if (cargando) {
     return (
       <SafeAreaView style={styles.contenedorCarga} edges={['top', 'left', 'right']}>
@@ -43,6 +52,7 @@ export default function PantallaHistorialTurnos() {
     );
   }
 
+  // vista cuando el usuario aun no posee turnos confirmados
   if (reservas.length === 0) {
     return (
       <SafeAreaView style={styles.contenedor} edges={['top', 'left', 'right']}>
@@ -63,10 +73,12 @@ export default function PantallaHistorialTurnos() {
     );
   }
 
+  // funcion para renderizar cada tarjeta de turno reservado
   const renderizarItem = ({ item }: { item: TurnoReserva }) => (
     <TarjetaTurno turno={item} />
   );
 
+  // cabecera de la lista de reservas
   const renderizarEncabezado = () => (
     <View style={styles.encabezado}>
       <Text style={styles.titulo}>Mis Turnos</Text>
@@ -76,6 +88,7 @@ export default function PantallaHistorialTurnos() {
     </View>
   );
 
+  // renderizado principal del listado con historial de turnos
   return (
     <SafeAreaView style={styles.contenedor} edges={['top', 'left', 'right']}>
       <FlatList
@@ -98,6 +111,7 @@ export default function PantallaHistorialTurnos() {
   );
 }
 
+// estilos para la pantalla de historial
 const styles = StyleSheet.create({
   contenedor: {
     flex: 1,

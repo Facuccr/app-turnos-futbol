@@ -1,3 +1,4 @@
+// importacion de componentes nativos de react native
 import React from 'react';
 import {
   ActivityIndicator,
@@ -9,6 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
+// definicion de propiedades aceptadas por el boton de accion
 export interface BotonAccionProps {
   titulo?: string;
   texto?: string;
@@ -26,6 +28,7 @@ export interface BotonAccionProps {
   accessibilityLabel?: string;
 }
 
+// componente de boton reutilizable con soporte de variantes y estado de carga
 export function BotonAccion({
   titulo,
   texto,
@@ -42,9 +45,11 @@ export function BotonAccion({
   testID,
   accessibilityLabel,
 }: BotonAccionProps) {
+  // calculo de estados derivados de carga y deshabilitacion
   const estaCargando = cargando || loading;
   const estaDeshabilitado = deshabilitado || disabled || estaCargando;
 
+  // determinacion del color del indicador de carga segun la variante
   const obtenerColorSpinner = () => {
     if (colorSpinner) {
       return colorSpinner;
@@ -58,6 +63,7 @@ export function BotonAccion({
     return '#FFFFFF';
   };
 
+  // determinacion del estilo visual del boton segun la variante
   const obtenerEstiloBoton = () => {
     switch (variante) {
       case 'secundario':
@@ -71,6 +77,7 @@ export function BotonAccion({
     }
   };
 
+  // determinacion del estilo de tipografia segun la variante
   const obtenerEstiloTexto = () => {
     switch (variante) {
       case 'secundario':
@@ -84,8 +91,10 @@ export function BotonAccion({
     }
   };
 
+  // obtencion del texto a desplegar
   const contenidoTexto = titulo ?? texto;
 
+  // renderizado del boton interactivo con soporte de accesibilidad
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -115,6 +124,7 @@ export function BotonAccion({
   );
 }
 
+// estilos base y variantes del boton
 const styles = StyleSheet.create({
   botonBase: {
     flexDirection: 'row',
@@ -163,4 +173,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// exportacion por defecto del componente de boton
 export default BotonAccion;

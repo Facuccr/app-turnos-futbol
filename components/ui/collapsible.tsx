@@ -1,3 +1,4 @@
+// importacion de estados y componentes visuales
 import { PropsWithChildren, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
@@ -7,10 +8,13 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
+// componente colapsable para desplegar u ocultar contenido anidado
 export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
+  // estado para alternar la visibilidad de la seccion
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? 'light';
 
+  // renderizado de la cabecera interactiva y contenido condicional
   return (
     <ThemedView>
       <TouchableOpacity
@@ -32,6 +36,7 @@ export function Collapsible({ children, title }: PropsWithChildren & { title: st
   );
 }
 
+// estilos para el encabezado y contenido colapsable
 const styles = StyleSheet.create({
   heading: {
     flexDirection: 'row',

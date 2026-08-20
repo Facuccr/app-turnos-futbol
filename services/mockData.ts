@@ -1,6 +1,8 @@
+// importacion de modelos de datos
 import { Cancha } from '../types/cancha';
 import { TurnoReserva } from '../types/reserva';
 
+// listado de canchas fijas de futbol 5 y futbol 6 para formosa
 export const canchasMock: Cancha[] = [
   {
     id: 'cancha-f5-1',
@@ -64,8 +66,11 @@ export const canchasMock: Cancha[] = [
   },
 ];
 
+// exportacion constante del listado de canchas simuladas
 export const CANCHAS_MOCK = canchasMock;
 
+// coleccion inicial en memoria para el historial de reservas
 export const turnosMock: TurnoReserva[] = [];
 
+// exportacion constante del listado inicial de reservas simuladas
 export const TURNOS_MOCK = turnosMock;

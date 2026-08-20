@@ -1,3 +1,4 @@
+// importacion de componentes nativos de interfaz
 import React from 'react';
 import {
   StyleProp,
@@ -10,6 +11,7 @@ import {
   ViewStyle,
 } from 'react-native';
 
+// propiedades del campo de entrada de texto personalizado
 export interface CampoTextoProps extends TextInputProps {
   etiqueta?: string;
   label?: string;
@@ -20,6 +22,7 @@ export interface CampoTextoProps extends TextInputProps {
   inputStyle?: StyleProp<TextStyle>;
 }
 
+// componente de entrada de texto con soporte de etiquetas y mensajes de error
 export const CampoTexto: React.FC<CampoTextoProps> = ({
   etiqueta,
   label,
@@ -31,10 +34,12 @@ export const CampoTexto: React.FC<CampoTextoProps> = ({
   style,
   ...props
 }) => {
+  // normalizacion de etiquetas y errores opcionales
   const textoEtiqueta = etiqueta || label;
   const textoError = error || mensajeError;
   const tieneError = Boolean(textoError);
 
+  // renderizado del contenedor con etiqueta campo e indicador de error
   return (
     <View style={[styles.contenedor, contenedorStyle]}>
       {textoEtiqueta ? (
@@ -57,8 +62,10 @@ export const CampoTexto: React.FC<CampoTextoProps> = ({
   );
 };
 
+// exportacion por defecto del campo de texto
 export default CampoTexto;
 
+// estilos del campo y sus estados de validacion
 const styles = StyleSheet.create({
   contenedor: {
     marginBottom: 16,

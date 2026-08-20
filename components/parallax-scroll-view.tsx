@@ -1,3 +1,4 @@
+// importacion de utilidades de animacion y renderizado
 import type { PropsWithChildren, ReactElement } from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, {
@@ -11,22 +12,28 @@ import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 
+// altura estandar de la cabecera paralaje
 const HEADER_HEIGHT = 250;
 
+// propiedades aceptadas por el contenedor con efecto paralaje
 type Props = PropsWithChildren<{
   headerImage: ReactElement;
   headerBackgroundColor: { dark: string; light: string };
 }>;
 
+// componente de desplazamiento con cabecera de imagen en paralaje
 export default function ParallaxScrollView({
   children,
   headerImage,
   headerBackgroundColor,
 }: Props) {
+  // lectura de color de fondo y esquema del tema
   const backgroundColor = useThemeColor({}, 'background');
   const colorScheme = useColorScheme() ?? 'light';
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollOffset = useScrollOffset(scrollRef);
+
+  // estilo animado reactivo a la posicion de desplazamiento
   const headerAnimatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -44,6 +51,7 @@ export default function ParallaxScrollView({
     };
   });
 
+  // renderizado de la vista desplazable animada y su cabecera
   return (
     <Animated.ScrollView
       ref={scrollRef}
@@ -62,6 +70,7 @@ export default function ParallaxScrollView({
   );
 }
 
+// estilos para el contenedor cabecera y cuerpo de contenido
 const styles = StyleSheet.create({
   container: {
     flex: 1,

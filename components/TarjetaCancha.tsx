@@ -1,3 +1,4 @@
+// importacion de dependencias y componentes de interfaz
 import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -5,14 +6,18 @@ import { Cancha } from '@/types/cancha';
 import { BadgeTipo } from '@/components/BadgeTipo';
 import { formatearMoneda } from '@/utils/formateadores';
 
+// propiedades para la tarjeta de previsualizacion de cancha
 export interface TarjetaCanchaProps {
   cancha: Cancha;
   onPress?: () => void;
 }
 
+// componente de tarjeta para mostrar el resumen de una cancha en el catalogo
 export const TarjetaCancha: React.FC<TarjetaCanchaProps> = ({ cancha, onPress }) => {
+  // estado para detectar fallo de carga de imagen
   const [errorImagen, setErrorImagen] = useState<boolean>(false);
 
+  // imagen por defecto segun la modalidad de la cancha
   const imagenPorDefecto =
     cancha.tipo === 'Fútbol 5'
       ? 'https://images.unsplash.com/photo-1529900240051-06c3960f15d8?w=800&auto=format&fit=crop&q=80'
@@ -20,6 +25,7 @@ export const TarjetaCancha: React.FC<TarjetaCanchaProps> = ({ cancha, onPress })
 
   const uriImagen = cancha.imagenUrl || imagenPorDefecto;
 
+  // renderizado de la tarjeta interactiva con imagen datos y precio
   return (
     <TouchableOpacity
       style={styles.tarjeta}
@@ -68,8 +74,10 @@ export const TarjetaCancha: React.FC<TarjetaCanchaProps> = ({ cancha, onPress })
   );
 };
 
+// exportacion por defecto de la tarjeta de cancha
 export default TarjetaCancha;
 
+// estilos de la tarjeta y sus secciones internas
 const styles = StyleSheet.create({
   tarjeta: {
     backgroundColor: '#ffffff',

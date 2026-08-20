@@ -1,3 +1,4 @@
+// importacion de dependencias y componentes visuales
 import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -5,6 +6,7 @@ import { TurnoReserva } from '@/types/reserva';
 import { BotonAccion } from '@/components/BotonAccion';
 import { formatearFechaLegible, formatearMoneda } from '@/utils/formateadores';
 
+// propiedades del modal de confirmacion de reserva
 export interface ModalConfirmacionProps {
   visible: boolean;
   turno: TurnoReserva | null;
@@ -12,18 +14,22 @@ export interface ModalConfirmacionProps {
   onVolverInicio: () => void;
 }
 
+// componente modal que muestra el resumen de confirmacion tras completar la reserva
 export const ModalConfirmacion: React.FC<ModalConfirmacionProps> = ({
   visible,
   turno,
   onVerHistorial,
   onVolverInicio,
 }) => {
+  // retorno nulo si no hay turno cargado
   if (!turno) {
     return null;
   }
 
+  // formateo legible de la fecha del turno confirmado
   const fechaFormateada = formatearFechaLegible(turno.fecha) || turno.fecha;
 
+  // renderizado del modal con resumen de datos y botones de navegacion
   return (
     <Modal
       visible={visible}
@@ -115,8 +121,10 @@ export const ModalConfirmacion: React.FC<ModalConfirmacionProps> = ({
   );
 };
 
+// exportacion por defecto del modal de confirmacion
 export default ModalConfirmacion;
 
+// estilos del modal y ficha de resumen
 const styles = StyleSheet.create({
   fondoModal: {
     flex: 1,

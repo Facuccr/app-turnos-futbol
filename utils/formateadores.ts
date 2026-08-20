@@ -1,3 +1,4 @@
+// lista de nombres de los meses del ano
 const MESES = [
   'enero',
   'febrero',
@@ -13,6 +14,7 @@ const MESES = [
   'diciembre',
 ];
 
+// lista de nombres de los dias de la semana
 const DIAS_SEMANA = [
   'Domingo',
   'Lunes',
@@ -23,10 +25,13 @@ const DIAS_SEMANA = [
   'Sábado',
 ];
 
+// funcion para formatear valores numericos como moneda en pesos argentinos
 export const formatearMoneda = (monto: number): string => {
+  // control de seguridad para valores no numericos
   if (typeof monto !== 'number' || isNaN(monto)) {
     return '$ 0';
   }
+  // aplicacion del formato de moneda segun el estandar local
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
     currency: 'ARS',
@@ -35,10 +40,14 @@ export const formatearMoneda = (monto: number): string => {
   }).format(monto);
 };
 
+// alias de la funcion para formatear precios
 export const formatearPrecio = formatearMoneda;
 
+// funcion para formatear fechas a formato dia mes anio
 export const formatearFecha = (fecha: string | Date): string => {
+  // verificacion de valor valido
   if (!fecha) return '';
+  // conversion directa cuando la fecha viene en formato yyyy-mm-dd
   if (typeof fecha === 'string') {
     const soloFechaMatch = /^\d{4}-\d{2}-\d{2}$/.exec(fecha.trim());
     if (soloFechaMatch) {
@@ -46,19 +55,24 @@ export const formatearFecha = (fecha: string | Date): string => {
       return `${dia}/${mes}/${anio}`;
     }
   }
+  // conversion a objeto date para otros formatos
   const dateObj = typeof fecha === 'string' ? new Date(fecha) : fecha;
   if (isNaN(dateObj.getTime())) {
     return '';
   }
+  // extraccion de componentes de la fecha con relleno de ceros
   const dia = String(dateObj.getDate()).padStart(2, '0');
   const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
   const anio = dateObj.getFullYear();
   return `${dia}/${mes}/${anio}`;
 };
 
+// funcion para formatear fecha a formato legible con dia de la semana y nombre del mes
 export const formatearFechaLegible = (fecha: string | Date): string => {
+  // verificacion de valor valido
   if (!fecha) return '';
   let dateObj: Date;
+  // parseo manual de fechas simples para evitar desfases horarios
   if (typeof fecha === 'string') {
     const soloFechaMatch = /^\d{4}-\d{2}-\d{2}$/.exec(fecha.trim());
     if (soloFechaMatch) {
@@ -70,9 +84,11 @@ export const formatearFechaLegible = (fecha: string | Date): string => {
   } else {
     dateObj = fecha;
   }
+  // comprobacion de fecha valida
   if (isNaN(dateObj.getTime())) {
     return '';
   }
+  // construccion de la cadena legible en espanol
   const diaSemana = DIAS_SEMANA[dateObj.getDay()];
   const dia = dateObj.getDate();
   const mes = MESES[dateObj.getMonth()];
@@ -80,12 +96,15 @@ export const formatearFechaLegible = (fecha: string | Date): string => {
   return `${diaSemana}, ${dia} de ${mes} de ${anio}`;
 };
 
+// funcion para formatear fecha incluyendo hora y minutos
 export const formatearFechaHora = (fecha: string | Date): string => {
+  // verificacion de valor valido
   if (!fecha) return '';
   const dateObj = typeof fecha === 'string' ? new Date(fecha) : fecha;
   if (isNaN(dateObj.getTime())) {
     return '';
   }
+  // extraccion de fecha y hora formateadas
   const dia = String(dateObj.getDate()).padStart(2, '0');
   const mes = String(dateObj.getMonth() + 1).padStart(2, '0');
   const anio = dateObj.getFullYear();

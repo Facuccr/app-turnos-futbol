@@ -1,6 +1,9 @@
+// importacion del componente animado de reanimated
 import Animated from 'react-native-reanimated';
 
+// componente que muestra una mano saludando con animacion
 export function HelloWave() {
+  // renderizado del texto animado con rotacion oscilante
   return (
     <Animated.Text
       style={{

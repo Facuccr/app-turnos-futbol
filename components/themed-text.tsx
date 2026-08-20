@@ -1,13 +1,16 @@
+// importacion de elementos de texto y hook de color de tema
 import { StyleSheet, Text, type TextProps } from 'react-native';
 
 import { useThemeColor } from '@/hooks/use-theme-color';
 
+// definicion de variantes tipograficas compatibles con temas
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
   type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
 };
 
+// componente de texto que aplica colores adaptativos al tema del sistema
 export function ThemedText({
   style,
   lightColor,
@@ -15,8 +18,10 @@ export function ThemedText({
   type = 'default',
   ...rest
 }: ThemedTextProps) {
+  // calculo del color correspondiente del tema
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
+  // renderizado del texto con la jerarquia tipografica indicada
   return (
     <Text
       style={[
@@ -33,6 +38,7 @@ export function ThemedText({
   );
 }
 
+// definicion de estilos tipograficos segun la variante
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,

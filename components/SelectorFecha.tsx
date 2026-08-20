@@ -1,3 +1,4 @@
+// importacion de hooks y componentes de react native
 import React, { useState } from 'react';
 import {
   Modal,
@@ -10,6 +11,7 @@ import {
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { formatearFecha, formatearFechaLegible } from '@/utils/formateadores';
 
+// propiedades esperadas por el selector de fechas
 export interface SelectorFechaProps {
   fechaSeleccionada: string;
   onSeleccionarFecha: (fecha: string) => void;
@@ -17,6 +19,7 @@ export interface SelectorFechaProps {
   etiqueta?: string;
 }
 
+// nombres de meses para navegacion en calendario
 const NOMBRES_MESES = [
   'Enero',
   'Febrero',
@@ -32,21 +35,26 @@ const NOMBRES_MESES = [
   'Diciembre',
 ];
 
+// abreviaturas de los dias de la semana
 const DIAS_SEMANA_CORTOS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
+// componente de selector interactivo de fecha con calendario modal
 export const SelectorFecha: React.FC<SelectorFechaProps> = ({
   fechaSeleccionada,
   onSeleccionarFecha,
   error,
   etiqueta = 'Fecha del turno *',
 }) => {
+  // obtencion de la fecha actual a medianoche
   const hoy = new Date();
   hoy.setHours(0, 0, 0, 0);
 
+  // establecimiento de la fecha inicial de visualizacion
   const fechaInicial = fechaSeleccionada
     ? new Date(`${fechaSeleccionada}T00:00:00`)
     : hoy;
 
+  // estados para controlar visibilidad y mes visible del calendario
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [anioActual, setAnioActual] = useState<number>(
     isNaN(fechaInicial.getTime()) ? hoy.getFullYear() : fechaInicial.getFullYear()
@@ -55,6 +63,7 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     isNaN(fechaInicial.getTime()) ? hoy.getMonth() : fechaInicial.getMonth()
   );
 
+  // funcion para desplegar el modal sincronizando la fecha activa
   const abrirModal = () => {
     if (fechaSeleccionada) {
       const parsed = new Date(`${fechaSeleccionada}T00:00:00`);
@@ -66,10 +75,12 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     setModalVisible(true);
   };
 
+  // funcion para cerrar el modal del calendario
   const cerrarModal = () => {
     setModalVisible(false);
   };
 
+  // navegacion hacia el mes anterior
   const mesAnterior = () => {
     if (
       anioActual === hoy.getFullYear() &&
@@ -85,6 +96,7 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     }
   };
 
+  // navegacion hacia el mes siguiente
   const mesSiguiente = () => {
     if (mesActual === 11) {
       setMesActual(0);
@@ -94,13 +106,16 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     }
   };
 
+  // validacion de permiso para retroceder en el calendario
   const puedeRetrocederMes = !(
     anioActual === hoy.getFullYear() && mesActual <= hoy.getMonth()
   );
 
+  // calculo de dias y dia inicial del mes para construir la grilla
   const diasEnMes = new Date(anioActual, mesActual + 1, 0).getDate();
   const primerDiaSemana = new Date(anioActual, mesActual, 1).getDay();
 
+  // construccion de las celdas del calendario mensual
   const celdasCalendario: {
     dia: number | null;
     deshabilitado: boolean;
@@ -109,6 +124,7 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     fechaStr: string;
   }[] = [];
 
+  // relleno de celdas vacias al inicio de la semana
   for (let i = 0; i < primerDiaSemana; i++) {
     celdasCalendario.push({
       dia: null,
@@ -119,6 +135,7 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     });
   }
 
+  // generacion de celdas con dias del mes
   for (let d = 1; d <= diasEnMes; d++) {
     const fechaIteracion = new Date(anioActual, mesActual, d);
     fechaIteracion.setHours(0, 0, 0, 0);
@@ -140,11 +157,13 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
     });
   }
 
+  // seleccion de dia y cierre del calendario
   const elegirDia = (fechaStr: string) => {
     onSeleccionarFecha(fechaStr);
     cerrarModal();
   };
 
+  // renderizado del campo selector y el modal de calendario
   return (
     <View style={styles.contenedor}>
       {etiqueta ? <Text style={styles.etiqueta}>{etiqueta}</Text> : null}
@@ -279,8 +298,10 @@ export const SelectorFecha: React.FC<SelectorFechaProps> = ({
   );
 };
 
+// exportacion por defecto del selector de fecha
 export default SelectorFecha;
 
+// estilos del selector y el calendario desplegable
 const styles = StyleSheet.create({
   contenedor: {
     marginBottom: 16,

@@ -1,3 +1,4 @@
+// importacion de utilidades visuales y componentes
 import { Image } from 'expo-image';
 import { Platform, StyleSheet } from 'react-native';
 
@@ -9,7 +10,9 @@ import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
 
+// componente con informacion explicativa del proyecto base
 export default function TabTwoScreen() {
+  // renderizado de secciones colapsables con guias del entorno
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -98,6 +101,7 @@ export default function TabTwoScreen() {
   );
 }
 
+// estilos de imagen y cabecera
 const styles = StyleSheet.create({
   headerImage: {
     color: '#808080',

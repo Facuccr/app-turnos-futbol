@@ -1,3 +1,4 @@
+// importacion de dependencias visuales y formateadores
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -5,13 +6,17 @@ import { TurnoReserva } from '@/types/reserva';
 import { BadgeTipo } from '@/components/BadgeTipo';
 import { formatearFechaLegible, formatearMoneda } from '@/utils/formateadores';
 
+// propiedades para la tarjeta de turno reservado
 export interface TarjetaTurnoProps {
   turno: TurnoReserva;
 }
 
+// componente para visualizar un turno agendado en el historial de reservas
 export const TarjetaTurno: React.FC<TarjetaTurnoProps> = ({ turno }) => {
+  // conversion de fecha a formato legible
   const fechaFormateada = formatearFechaLegible(turno.fecha) || turno.fecha;
 
+  // renderizado de la tarjeta con informacion del titular y detalles del turno
   return (
     <View style={styles.tarjeta}>
       <View style={styles.encabezado}>
@@ -66,8 +71,10 @@ export const TarjetaTurno: React.FC<TarjetaTurnoProps> = ({ turno }) => {
   );
 };
 
+// exportacion por defecto de la tarjeta de turno
 export default TarjetaTurno;
 
+// estilos de la tarjeta de reserva en el historial
 const styles = StyleSheet.create({
   tarjeta: {
     backgroundColor: '#ffffff',

@@ -1,16 +1,21 @@
+// importacion de librerias base y tipos
 import React from 'react';
 import { StyleSheet, Text, View, StyleProp, ViewStyle, TextStyle } from 'react-native';
 import { TipoFutbol } from '@/types/cancha';
 
+// propiedades del componente de insignia de tipo de cancha
 export interface BadgeTipoProps {
   tipo: TipoFutbol;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
 }
 
+// componente visual para distinguir entre futbol 5 y futbol 6
 export function BadgeTipo({ tipo, style, textStyle }: BadgeTipoProps) {
+  // evaluacion de la modalidad seleccionada
   const esFutbol5 = tipo === 'Fútbol 5';
 
+  // renderizado del contenedor y etiqueta con estilos dinamicos
   return (
     <View
       style={[
@@ -32,6 +37,7 @@ export function BadgeTipo({ tipo, style, textStyle }: BadgeTipoProps) {
   );
 }
 
+// estilos especificos para la insignia y sus variantes
 const styles = StyleSheet.create({
   contenedor: {
     alignSelf: 'flex-start',
@@ -60,4 +66,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// exportacion por defecto del componente badge
 export default BadgeTipo;

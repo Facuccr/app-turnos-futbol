@@ -1,3 +1,4 @@
+// importacion de navegacion por pestanas e iconos
 import { Tabs } from 'expo-router';
 import React from 'react';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -6,9 +7,12 @@ import { HapticTab } from '@/components/haptic-tab';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
+// estructura de navegacion inferior con pestanas principales
 export default function TabLayout() {
+  // obtencion del tema para colorear las pestanas activas
   const colorScheme = useColorScheme();
 
+  // definicion de las pantallas de catalogo e historial
   return (
     <Tabs
       screenOptions={{
