@@ -7,8 +7,15 @@ export const obtenerCanchas = async (): Promise<Cancha[]> => {
   return [...canchasMock];
 };
 
+export const obtenerCanchaPorId = async (id: string): Promise<Cancha | null> => {
+  await delay(300);
+  const cancha = canchasMock.find((c) => c.id === id);
+  return cancha ? { ...cancha } : null;
+};
+
 export const canchasService = {
   obtenerCanchas,
+  obtenerCanchaPorId,
 };
 
 export default canchasService;

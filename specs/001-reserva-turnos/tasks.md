@@ -54,8 +54,8 @@
 
 **Criterio de Prueba Independiente**: Seleccionar cualquier cancha del catálogo; el sistema navega a la pantalla de detalle mostrando su ficha completa y el botón para reservar.
 
-- [ ] T018 [P] [US2] Extender el servicio de canchas con la función de consulta por identificador en `services/canchasService.ts`
-- [ ] T019 [US2] Implementar la pantalla de ficha de detalle de cancha con servicios y botón de reserva en `app/cancha/[id].tsx`
+- [x] T018 [P] [US2] Extender el servicio de canchas con la función de consulta por identificador en `services/canchasService.ts`
+- [x] T019 [US2] Implementar la pantalla de ficha de detalle de cancha con servicios y botón de reserva en `app/cancha/[id].tsx`
 
 **Punto de Control**: Las Historias de Usuario 1 y 2 funcionan de manera integrada y navegable.
 
