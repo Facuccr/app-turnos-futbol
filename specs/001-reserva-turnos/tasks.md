@@ -39,9 +39,9 @@
 
 **Criterio de Prueba Independiente**: Iniciar la aplicación en la pantalla principal; se observa el indicador de carga y luego se listan las 6 canchas con nombre, tipo y precio.
 
-- [ ] T014 [P] [US1] Implementar el servicio mock asíncrono para consulta del catálogo de canchas en `services/canchasService.ts`
-- [ ] T015 [P] [US1] Crear el componente de tarjeta de cancha para el catálogo en `components/TarjetaCancha.tsx`
-- [ ] T016 [US1] Crear la navegación por pestañas para catálogo e historial en `app/(tabs)/_layout.tsx`
+- [x] T014 [P] [US1] Implementar el servicio mock asíncrono para consulta del catálogo de canchas en `services/canchasService.ts`
+- [x] T015 [P] [US1] Crear el componente de tarjeta de cancha para el catálogo en `components/TarjetaCancha.tsx`
+- [x] T016 [US1] Crear la navegación por pestañas para catálogo e historial en `app/(tabs)/_layout.tsx`
 - [ ] T017 [US1] Implementar la pantalla principal de catálogo con visualización de canchas y estado de carga en `app/(tabs)/index.tsx`
 
 **Punto de Control**: La Historia de Usuario 1 es completamente funcional y constituye el MVP de visualización.
@@ -103,6 +103,7 @@
 ## Dependencias y Orden de Ejecución
 
 ### Dependencias entre Fases
+
 1. **Fase 1 (Configuración)**: Sin dependencias previas; inicio inmediato.
 2. **Fase 2 (Fundacional)**: Depende de la Fase 1; bloquea el desarrollo de todas las historias de usuario.
 3. **Fase 3 (Historia 1 - P1)**: Depende de la Fase 2; entrega el MVP funcional.
@@ -112,6 +113,7 @@
 7. **Fase 7 (Pulido y Verificación)**: Depende de la finalización de las Fases 3 a 6.
 
 ### Oportunidades de Ejecución Paralela
+
 - En **Fase 1**: T002 y T003 pueden desarrollarse en paralelo tras T001.
 - En **Fase 2**: T004, T005, T006, T007, T009, T010, T011 y T012 pueden implementarse en paralelo por afectar archivos independientes.
 - En **Fase 3**: T014 y T015 pueden desarrollarse en paralelo antes de ensamblar la pantalla en T017.
@@ -123,13 +125,17 @@
 ## Estrategia de Implementación Incremental
 
 ### 1. Alcance MVP (Fases 1, 2 y 3)
+
 - Permite contar con una aplicación funcional en Expo que arranca, simula latencia y presenta de forma atractiva las 6 canchas del complejo deportivo.
 
 ### 2. Incremento de Valor 1 (Fase 4)
+
 - Agrega la vista detallada de la cancha con su lista de comodidades (luz, duchas, buffet, etc.).
 
 ### 3. Incremento de Valor 2 (Fase 5)
+
 - Incorpora la lógica transaccional de reserva y la validación estricta de campos obligatorios.
 
 ### 4. Incremento de Valor 3 (Fase 6 y 7)
+
 - Cierra el ciclo de usuario con la consulta de historial de partidos, manejo de estados vacíos y verificación integral.
