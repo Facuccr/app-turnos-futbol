@@ -21,10 +21,10 @@
 - [x] T004 [P] Definir tipos e interfaces TypeScript para Cancha y Servicios en `types/cancha.ts`
 - [x] T005 [P] Definir tipos e interfaces TypeScript para TurnoReserva, Formulario y Errores en `types/reserva.ts`
 - [x] T006 [P] Implementar la utilidad de simulación de latencia de red asíncrona en `utils/delay.ts`
-- [x] T007 [P] Implementar utilidades de formateo de moneda y fechas en `utils/formateadores.ts`
-- [x] T008 Crear el conjunto de datos mock con las 6 canchas fijas (3 Fútbol 5 y 3 Fútbol 6) en `services/mockData.ts`
-- [x] T009 [P] Crear el componente reutilizable de indicador de carga en `components/EstadoCarga.tsx`
-- [x] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
+- [ ] T007 [P] Implementar utilidades de formateo de moneda y fechas en `utils/formateadores.ts`
+- [ ] T008 Crear el conjunto de datos mock con las 6 canchas fijas (3 Fútbol 5 y 3 Fútbol 6) en `services/mockData.ts`
+- [ ] T009 [P] Crear el componente reutilizable de indicador de carga en `components/EstadoCarga.tsx`
+- [ ] T010 [P] Crear el componente reutilizable de estado vacío con acción en `components/EstadoVacio.tsx`
 - [ ] T011 [P] Crear el componente reutilizable de insignia de categoría en `components/BadgeTipo.tsx`
 - [ ] T012 [P] Crear el componente reutilizable de botón de acción con soporte de carga en `components/BotonAccion.tsx`
 - [ ] T013 Implementar el contexto global y proveedor de reservas en `context/ReservasContext.tsx`
@@ -103,6 +103,7 @@
 ## Dependencias y Orden de Ejecución
 
 ### Dependencias entre Fases
+
 1. **Fase 1 (Configuración)**: Sin dependencias previas; inicio inmediato.
 2. **Fase 2 (Fundacional)**: Depende de la Fase 1; bloquea el desarrollo de todas las historias de usuario.
 3. **Fase 3 (Historia 1 - P1)**: Depende de la Fase 2; entrega el MVP funcional.
@@ -112,6 +113,7 @@
 7. **Fase 7 (Pulido y Verificación)**: Depende de la finalización de las Fases 3 a 6.
 
 ### Oportunidades de Ejecución Paralela
+
 - En **Fase 1**: T002 y T003 pueden desarrollarse en paralelo tras T001.
 - En **Fase 2**: T004, T005, T006, T007, T009, T010, T011 y T012 pueden implementarse en paralelo por afectar archivos independientes.
 - En **Fase 3**: T014 y T015 pueden desarrollarse en paralelo antes de ensamblar la pantalla en T017.
@@ -123,13 +125,17 @@
 ## Estrategia de Implementación Incremental
 
 ### 1. Alcance MVP (Fases 1, 2 y 3)
+
 - Permite contar con una aplicación funcional en Expo que arranca, simula latencia y presenta de forma atractiva las 6 canchas del complejo deportivo.
 
 ### 2. Incremento de Valor 1 (Fase 4)
+
 - Agrega la vista detallada de la cancha con su lista de comodidades (luz, duchas, buffet, etc.).
 
 ### 3. Incremento de Valor 2 (Fase 5)
+
 - Incorpora la lógica transaccional de reserva y la validación estricta de campos obligatorios.
 
 ### 4. Incremento de Valor 3 (Fase 6 y 7)
+
 - Cierra el ciclo de usuario con la consulta de historial de partidos, manejo de estados vacíos y verificación integral.
