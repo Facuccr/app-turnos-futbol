@@ -67,11 +67,11 @@
 
 **Criterio de Prueba Independiente**: Abrir el formulario de reserva, intentar enviar con campos vacíos (verificando el bloqueo y mensajes de error) y luego completar datos válidos para recibir el modal de confirmación.
 
-- [ ] T020 [P] [US3] Implementar el validador estricto de campos obligatorios para el formulario de reserva en `utils/validadorReserva.ts`
-- [ ] T021 [P] [US3] Crear el componente reutilizable de campo de texto con mensajes de error en `components/CampoTexto.tsx`
-- [ ] T022 [P] [US3] Crear el componente modal de confirmación con resumen de la reserva en `components/ModalConfirmacion.tsx`
-- [ ] T023 [US3] Implementar la función de creación y registro de turnos en `services/reservasService.ts`
-- [ ] T024 [US3] Implementar la pantalla de formulario de reserva con validación estricta y modal de confirmación en `app/reserva/[id].tsx`
+- [x] T020 [P] [US3] Implementar el validador estricto de campos obligatorios para el formulario de reserva en `utils/validadorReserva.ts`
+- [x] T021 [P] [US3] Crear el componente reutilizable de campo de texto con mensajes de error en `components/CampoTexto.tsx`
+- [x] T022 [P] [US3] Crear el componente modal de confirmación con resumen de la reserva en `components/ModalConfirmacion.tsx`
+- [x] T023 [US3] Implementar la función de creación y registro de turnos en `services/reservasService.ts`
+- [x] T024 [US3] Implementar la pantalla de formulario de reserva con validación estricta y modal de confirmación en `app/reserva/[id].tsx`
 
 **Punto de Control**: El flujo transaccional de reserva está completado y validado contra errores de entrada.
 
