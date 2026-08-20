@@ -83,9 +83,9 @@
 
 **Criterio de Prueba Independiente**: Acceder a la pestaña de historial antes de reservar para verificar el estado vacío, y tras realizar reservas para verificar el listado cronológico de turnos confirmados.
 
-- [ ] T025 [P] [US4] Implementar la función de consulta del historial de turnos en `services/reservasService.ts`
-- [ ] T026 [P] [US4] Crear el componente de tarjeta de turno para la lista de historial en `components/TarjetaTurno.tsx`
-- [ ] T027 [US4] Implementar la pantalla de historial de turnos con soporte de estado de carga y estado vacío en `app/(tabs)/historial.tsx`
+- [x] T025 [P] [US4] Implementar la función de consulta del historial de turnos en `services/reservasService.ts`
+- [x] T026 [P] [US4] Crear el componente de tarjeta de turno para la lista de historial en `components/TarjetaTurno.tsx`
+- [x] T027 [US4] Implementar la pantalla de historial de turnos con soporte de estado de carga y estado vacío en `app/(tabs)/historial.tsx`
 
 **Punto de Control**: Todas las historias de usuario están implementadas y el ciclo completo de la aplicación es funcional.
 
