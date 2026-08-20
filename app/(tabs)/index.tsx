@@ -1,98 +1,114 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { canchasService } from '@/services/canchasService';
+import { EstadoCarga } from '@/components/EstadoCarga';
+import { TarjetaCancha } from '@/components/TarjetaCancha';
+import { Cancha } from '@/types/cancha';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function PantallaCatalogoCanchas() {
+  const router = useRouter();
+  const [canchas, setCanchas] = useState<Cancha[]>([]);
+  const [cargando, setCargando] = useState<boolean>(true);
+  const [refrescando, setRefrescando] = useState<boolean>(false);
 
-export default function HomeScreen() {
+  const cargarCanchas = useCallback(async () => {
+    try {
+      const datos = await canchasService.obtenerCanchas();
+      setCanchas(datos);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setCargando(false);
+      setRefrescando(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    cargarCanchas();
+  }, [cargarCanchas]);
+
+  const alRefrescar = useCallback(() => {
+    setRefrescando(true);
+    cargarCanchas();
+  }, [cargarCanchas]);
+
+  if (cargando) {
+    return (
+      <SafeAreaView style={styles.contenedorCarga} edges={['top', 'left', 'right']}>
+        <EstadoCarga mensaje="Cargando canchas del complejo..." />
+      </SafeAreaView>
+    );
+  }
+
+  const renderizarItem = ({ item }: { item: Cancha }) => (
+    <TarjetaCancha
+      cancha={item}
+      onPress={() => router.push(`/cancha/${item.id}` as any)}
+    />
+  );
+
+  const renderizarEncabezado = () => (
+    <View style={styles.encabezado}>
+      <Text style={styles.titulo}>Canchas Disponibles</Text>
+      <Text style={styles.subtitulo}>
+        Explora nuestras canchas de Fútbol 5 y Fútbol 6 y reserva tu próximo partido.
+      </Text>
+    </View>
+  );
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
-
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.contenedor} edges={['top', 'left', 'right']}>
+      <FlatList
+        data={canchas}
+        keyExtractor={(item) => item.id}
+        renderItem={renderizarItem}
+        ListHeaderComponent={renderizarEncabezado}
+        contentContainerStyle={styles.listaContenido}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refrescando}
+            onRefresh={alRefrescar}
+            colors={['#0284c7']}
+            tintColor="#0284c7"
+          />
+        }
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  contenedor: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+  },
+  contenedorCarga: {
+    flex: 1,
+    backgroundColor: '#f8fafc',
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  listaContenido: {
+    paddingHorizontal: 16,
+    paddingBottom: 24,
+    paddingTop: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  encabezado: {
+    marginBottom: 16,
+    marginTop: 8,
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#0f172a',
+    marginBottom: 4,
+  },
+  subtitulo: {
+    fontSize: 14,
+    color: '#64748b',
+    lineHeight: 20,
   },
 });
